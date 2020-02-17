@@ -5,11 +5,9 @@ from bs4 import BeautifulSoup
 LIMIT = 50
 URL = f"https://www.indeed.com/jobs?q=python&limit={LIMIT}"
 
-def extract_pages():
+def get_last_page():
     result = requests.get(URL)
-
     soup = BeautifulSoup(result.text, "html.parser")
-
     pagination = soup.find("div", {"class":"pagination"})
     links = pagination.find_all("a")
     pages = []
@@ -44,10 +42,9 @@ def extract_jobs(last_page):
         for result in results:
             job = extract_job(result)
             jobs.append(job)
-            print(job)
     return jobs
 
 def get_jobs():
-    last_page = extract_pages()
+    last_page = get_last_page()
     jobs = extract_jobs(last_page)
     return jobs
