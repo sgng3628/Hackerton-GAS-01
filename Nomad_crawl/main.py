@@ -8,5 +8,5 @@ from instagram import get_posts
 # jobs = indeed_jobs + so_jobs
 # save_to_file(jobs)
 
-get_posts("nba")
+get_posts()
 

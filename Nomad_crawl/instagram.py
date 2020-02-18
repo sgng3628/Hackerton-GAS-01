@@ -2,25 +2,27 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-URL = f"https://www.instagram.com/explore"
+URL = "https://news.naver.com/main/main.nhn?mode=LSD&mid=shm&sid1=101"
 
-def save_to_file(links):
-    file = open("dates.csv", mode="w")
-    writer = csv.writer(file)
-    for link in links:
-        writer.writerow(link)
-    return
-
-def extract_links(tag):
-    links = []
-    result = requests.get(f"{URL}/tags/{tag}")
+def extract_links():
+    datas = []
+    result = requests.get(URL)
     soup = BeautifulSoup(result.text, "html.parser")
-    links = soup.find_all("div",{"class":"Nnq7C"})
-    print(links)
-    return links
+    page = soup.find("div",{"id":"ranking_101"})
+    results = page.find_all("li")
+    for result in results:
+        temp = result.find("a")
+        print(temp)
+        num = result.find("span").get_text()
+        print(num)
+        link = URL+temp.get("href")
+        print(link)
+        title = temp["title"]
+        print(title)
+    return 
 
-def get_posts(tag):
-    extract_links(tag)
+def get_posts():
+    extract_links()
     return
 
 
